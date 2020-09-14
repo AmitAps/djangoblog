@@ -279,3 +279,86 @@ INSTALLED_APPS setting
 ####################################################################################
 
 You can take a look at an introduction to class-based views at https://docs.djangoproject.com/en/3.0/topics/class-based-views/intro/ .
+###################################################################################
+
+Django comes with two base classes to build forms:
+• Form : Allows you to build standard forms
+• ModelForm : Allows you to build forms tied to model instances
+####################################################################################
+If you can't use an SMTP server, you can tell Django to write emails to the console
+by adding the following setting to the settings.py file:
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+By using this setting, Django will output all emails to the shell. This is very useful
+for testing your application without an SMTP server.
+
+######################################################################################
+
+If you want to send emails but you don't have a local SMTP server, you can
+probably use the SMTP server of your email service provider. The following sample
+configuration is valid for sending emails via Gmail servers using a Google account:
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'your_account@gmail.com'
+EMAIL_HOST_PASSWORD = 'your_password'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+####################################################################################
+Run the python manage.py shell command to open the Python shell and send
+an email, as follows:
+>>> from django.core.mail import send_mail
+>>> send_mail('Django mail', 'This e-mail was sent with Django.', 'your_
+account@gmail.com', ['your_account@gmail.com'], fail_silently=False)
+
+send_mail('Django mail', 'This e-mail was sent with django.', 'flyhieeofficial@gmail.com', ['amitoct9@gmail.com'], fail_silently=False)
+
+####################################################################################
+If you are sending emails using Gmail with the preceding configuration, you will
+have to enable access for less secure applications at https://myaccount.google.com/lesssecureapps
+####################################################################################
+The related_name attribute allows you to name the attribute that you use for
+the relationship from the related object back to this one. After defining this, you
+can retrieve the post of a comment object using comment.post and retrieve all
+comments of a post using post.comments.all() . If you don't define the related_
+name attribute, Django will use the name of the model in lowercase, followed by _
+set (that is, comment_set ) to name the relationship of the related object to the object
+of the model, where this relationship has been defined.
+
+You can learn more about many-to-one relationships at https://docs.djangoproject.com/en/3.0/topics/db/examples/many_to_one/ .
+####################################################################################
+you can
+explicitly tell the framework which fields you want to include in your form using
+a fields list, or define which fields you want to exclude using an exclude list of
+fields.
+#####################################################################################
+The save() method is available for ModelForm but not
+for Form instances, since they are not linked to any model.
+#####################################################################################
+
+You are using the Django ORM in the template, executing the QuerySet comments.
+count() . Note that the Django template language doesn't use parentheses for calling
+methods. The {% with %} tag allows you to assign a value to a new variable that
+will be available to be used until the {% endwith %} tag.
+
+
+The {% with %} template tag is useful for avoiding hitting the
+database or accessing expensive methods multiple times.
+
+######################################################################################
+ [Aps@aps mysite]$ ./manage.py shell
+Python 3.8.5 (default, Aug 12 2020, 00:00:00)
+[GCC 10.2.1 20200723 (Red Hat 10.2.1-1)] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from blog.models import Post
+>>> post = Post.objects.get(id=1)
+>>> post.tags.add('music','jazz','django')
+>>> post.tags.all()
+<QuerySet [<Tag: django>, <Tag: jazz>, <Tag: music>]>
+>>> post.tags.remove('django')
+>>> post.tags.all()
+<QuerySet [<Tag: jazz>, <Tag: music>]>
+######################################################################################
+You can discover more about many-to-many relationships at https://docs.djangoproject.com/en/3.0/topics/db/examples/many_to_many/ .
+
+###############################################################################################
+You can learn about aggregation at https://docs.djangoproject.com/en/3.0/topics/db/aggregation/ .
+##############################################################################################
